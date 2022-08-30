@@ -1,0 +1,77 @@
+version: '3.9'
+
+networks:
+      Inception-network:
+            name: Inception-network
+            driver: bridge
+
+volumes:
+      DB:
+            driver: local
+            name: DB
+#            driver_opts:
+#                  type: none
+#                  o: bind
+#                  device: /Users/rkaufman/Projects/DB
+      WordPress:
+            driver: local
+            name: WordPress
+#            driver_opts:
+#                  type: none
+#                  o: bind
+#                  device: /Users/rkaufman/Projects/WordPress
+
+services:
+      webinterface:
+            container_name: nginx
+            image: nginx
+            build: requirements/nginx
+#            depends_on:
+#                  - webpage
+            ports:
+#                 - "80:80"
+                  - "443:443"
+            volumes:
+            - DB:/DB
+#            - /Users/rkaufman/Projects/DB:/otherDB
+#        - ./srcs/requirements/html/:/var/www/html/:ro
+#         - ./srcs/requirements/html/index.html:/usr/share/nginx/html/index.html
+            environment:
+                  - PS1
+#            env_file:
+#                  - .env
+            networks:
+                  - Inception-network
+            restart: on-failure
+
+#      webpage:
+#            container_name: wordpress
+#            image: wordpress
+#            build: requirements/wordpress
+#            depends_on:
+#                  - database
+#            ports:
+#                  - 9000:9000
+#            volumes:
+#                  - .WordPress
+#            networks:
+#                  - Inception-network
+#            restart: on-failure
+
+      database:
+            container_name: mariadb
+            image: mariadb
+            build: requirements/mariadb
+            ports:
+                  - 3306:3306
+            volumes:
+                  - DB:/var/lib/mysql
+            environment:
+                  - PS1
+                  - MYSQL_ROOT_PASSWORD
+                  - MYSQL_USER
+                  - MYSQL_PASSWORD
+                  - MYSQL_DB
+            networks:
+                  - Inception-network
+            restart: on-failure

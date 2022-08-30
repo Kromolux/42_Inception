@@ -1,0 +1,23 @@
+USE mysql;
+--FLUSH PRIVILEGES;
+--ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
+
+DELETE FROM mysql.user WHERE User='';
+
+DROP DATABASE IF EXISTS test;
+DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+
+CREATE DATABASE IF NOT EXISTS Inception;
+
+--CREATE DATABASE '$MYSQL_DB';
+
+UPDATE mysql.user SET Password=PASSWORD('MasterOfDesaster') WHERE User='root';
+
+--DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
+
+CREATE USER IF NOT EXISTS 'rkaufman'@'%' IDENTIFIED BY 'IwantYourData';
+
+--CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+--GRANT ALL PRIVILEGES ON '$MYSQL_DATABASE'.* TO '$MYSQL_USER'@'%';
+
+FLUSH PRIVILEGES;
