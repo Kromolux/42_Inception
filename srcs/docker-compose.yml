@@ -1,77 +1,86 @@
 version: '3.9'
 
 networks:
-      Inception-network:
-            name: Inception-network
+      Inception_network:
+            name: Inception_network
             driver: bridge
 
 volumes:
-      DB:
+      volume_DB:
             driver: local
-            name: DB
-#            driver_opts:
-#                  type: none
-#                  o: bind
-#                  device: /Users/rkaufman/Projects/DB
-      WordPress:
+            name: volume_DB
+            driver_opts:
+                  type: none
+                  o: bind
+#                  device: /home/rkaufman/data/DB
+#                 for testing on School Mac only
+                  device: /Users/rkaufman/Projects/DB
+      volume_WordPress:
             driver: local
-            name: WordPress
-#            driver_opts:
-#                  type: none
-#                  o: bind
-#                  device: /Users/rkaufman/Projects/WordPress
+            name: volume_WordPress
+            driver_opts:
+                  type: none
+                  o: bind
+#                  device: /home/rkaufman/data/WordPress
+#                 for testing on School Mac only
+                  device: /Users/rkaufman/Projects/WordPress
 
 services:
-      webinterface:
+      service_nginx:
             container_name: nginx
             image: nginx
             build: requirements/nginx
-#            depends_on:
-#                  - webpage
+            depends_on:
+                  - service_wordpress
             ports:
-#                 - "80:80"
                   - "443:443"
             volumes:
-            - DB:/DB
-#            - /Users/rkaufman/Projects/DB:/otherDB
-#        - ./srcs/requirements/html/:/var/www/html/:ro
-#         - ./srcs/requirements/html/index.html:/usr/share/nginx/html/index.html
+                  - volume_WordPress:/var/www/html
             environment:
                   - PS1
 #            env_file:
 #                  - .env
             networks:
-                  - Inception-network
+                  - Inception_network
             restart: on-failure
 
-#      webpage:
-#            container_name: wordpress
-#            image: wordpress
-#            build: requirements/wordpress
-#            depends_on:
-#                  - database
-#            ports:
-#                  - 9000:9000
-#            volumes:
-#                  - .WordPress
-#            networks:
-#                  - Inception-network
-#            restart: on-failure
+      service_wordpress:
+            container_name: wordpress
+            image: wordpress
+            build: requirements/wordpress
+            depends_on:
+                  - service_mariadb
+            # ports:
+            #       - 9000:9000
+            volumes:
+                  - volume_WordPress:/var/www/html:rw
+            environment:
+                  - PS1
+                  - WORDPRESS_DB_HOST
+                  - WORDPRESS_DB_USER
+                  - WORDPRESS_DB_PASSWORD
+                  - WORDPRESS_DB_NAME
+            networks:
+                  - Inception_network
+            restart: on-failure
 
-      database:
+      service_mariadb:
             container_name: mariadb
             image: mariadb
             build: requirements/mariadb
-            ports:
-                  - 3306:3306
+            # ports:
+            #       - 3306:3306
             volumes:
-                  - DB:/var/lib/mysql
+                  - volume_DB:/var/lib/mysql:rw
             environment:
                   - PS1
                   - MYSQL_ROOT_PASSWORD
                   - MYSQL_USER
                   - MYSQL_PASSWORD
-                  - MYSQL_DB
+                  - MYSQL_DATABASE
+                  - WORDPRESS_DB_USER
+                  - WORDPRESS_DB_PASSWORD
+                  - WORDPRESS_DB_NAME
             networks:
-                  - Inception-network
+                  - Inception_network
             restart: on-failure
