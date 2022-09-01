@@ -60,13 +60,13 @@ volume:
 		mkdir -p /Users/rkaufman/Projects/DB
 endif
 
-#	@ ifeq ($(UNAME), Linux)
-#volume:
-#		rm -fr /home/rkaufman/data/WordPress
-#		rm -fr /home/rkaufman/data/DB
-#		mkdir -p /home/rkaufman/data/WordPress
-#		mkdir -p /home/rkaufman/data/DB
-#	@ endif
+ifeq ($(UNAME), Linux)
+volume:
+		sudo rm -fr /home/rkaufman/data/WordPress
+		sudo rm -fr /home/rkaufman/data/DB
+		mkdir -p /home/rkaufman/data/WordPress
+		mkdir -p /home/rkaufman/data/DB
+endif
 
 cert:
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \

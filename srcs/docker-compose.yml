@@ -12,18 +12,18 @@ volumes:
             driver_opts:
                   type: none
                   o: bind
-#                  device: /home/rkaufman/data/DB
+                  device: /home/rkaufman/data/DB
 #                 for testing on School Mac only
-                  device: /Users/rkaufman/Projects/DB
+#                  device: /Users/rkaufman/Projects/DB
       volume_WordPress:
             driver: local
             name: volume_WordPress
             driver_opts:
                   type: none
                   o: bind
-#                  device: /home/rkaufman/data/WordPress
+                  device: /home/rkaufman/data/WordPress
 #                 for testing on School Mac only
-                  device: /Users/rkaufman/Projects/WordPress
+#                  device: /Users/rkaufman/Projects/WordPress
 
 services:
       service_nginx:
