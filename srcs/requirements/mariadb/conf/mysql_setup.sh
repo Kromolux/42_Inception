@@ -1,15 +1,20 @@
-mariadb-install-db --user=mysql --ldata=/var/lib/mysql
 
-mkdir /var/run/mysqld
-chown -R mysql:root /var/run/mysqld
+if [ ! -d /var/lib/mysql/Inception_DataBase ]; then
+	echo "installing database"
+	mariadb-install-db --user=mysql --ldata=/var/lib/mysql
 
-
-sed -i "s/WORDPRESS_DB_USER/$WORDPRESS_DB_USER/g" /usr/bin/setup.sql
-sed -i "s/WORDPRESS_DB_PASSWORD/$WORDPRESS_DB_PASSWORD/g" /usr/bin/setup.sql
-sed -i "s/WORDPRESS_DB_NAME/$WORDPRESS_DB_NAME/g" /usr/bin/setup.sql
-sed -i "s/MYSQL_ROOT_PASSWORD/$MYSQL_ROOT_PASSWORD/g" /usr/bin/setup.sql
+	mkdir /var/run/mysqld
+	chown -R mysql:root /var/run/mysqld
 
 
-(sleep 3; mariadb $WORDPRESS_DB_NAME < /etc/bin/data-dump.sql; echo "imported database") &
+	sed -i "s/WORDPRESS_DB_USER/$WORDPRESS_DB_USER/g" /usr/bin/setup.sql
+	sed -i "s/WORDPRESS_DB_PASSWORD/$WORDPRESS_DB_PASSWORD/g" /usr/bin/setup.sql
+	sed -i "s/WORDPRESS_DB_NAME/$WORDPRESS_DB_NAME/g" /usr/bin/setup.sql
+	sed -i "s/MYSQL_ROOT_PASSWORD/$MYSQL_ROOT_PASSWORD/g" /usr/bin/setup.sql
 
-exec mysqld --user=mysql --init-file=/usr/bin/setup.sql
+	(sleep 3; mariadb -u wordpress --password=$WORDPRESS_DB_PASSWORD $WORDPRESS_DB_NAME < /etc/bin/data-dump.sql; echo "imported database") &
+
+	exec mysqld --user=mysql --init-file=/usr/bin/setup.sql
+else
+	exec mysqld --user=mysql
+fi

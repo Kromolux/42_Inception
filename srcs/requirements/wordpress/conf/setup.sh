@@ -1,6 +1,3 @@
-#adduser -S nginx
-#addgroup -S nginx
-#adduser nginx nginx
 
 mv /var/www/wordpress/* /var/www/html/
 

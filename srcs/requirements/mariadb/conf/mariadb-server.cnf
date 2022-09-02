@@ -7,7 +7,7 @@ port=3306
 # This will be passed to all MariaDB clients
 [client]
 socket=/var/lib/mysql/mysql.sock
-password=MasterOfDesaster
+
 
 # The MariaDB server
 # allow connection from anywhere

@@ -11,7 +11,6 @@ DELETE FROM mysql.user WHERE User='';
 DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
 
-UPDATE mysql.user SET Password=PASSWORD('MYSQL_ROOT_PASSWORD') WHERE User='root';
-UPDATE mysql.user SET plugin='' WHERE User='root' AND Host='localhost';
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'MYSQL_ROOT_PASSWORD';
 
 FLUSH PRIVILEGES;

@@ -17,6 +17,3 @@ EXPOSE 3306
 
 
 ENTRYPOINT ["sh", "/usr/bin/mysql_setup.sh"]
-
-
-CMD ["mysqld", "--user=mysql"]

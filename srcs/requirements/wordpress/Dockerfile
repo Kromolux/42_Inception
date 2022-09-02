@@ -8,6 +8,7 @@ RUN apk update \
 ADD http://wordpress.org/latest.tar.gz /var/www/
 #RUN tar -xzf /var/www/latest.tar.gz -C /var/www/ --strip-components 1 \
 #	&& rm -rf /var/www/latest.tar.gz
+
 RUN tar -xzf /var/www/latest.tar.gz -C /var/www/ \
 	&& rm -rf /var/www/latest.tar.gz
 
@@ -19,6 +20,3 @@ COPY conf/setup.sh /var/www/setup.sh
 EXPOSE 9000
 
 ENTRYPOINT ["sh", "/var/www/setup.sh"]
-
-#CMD ["sh", "/var/www/setup.sh"]
-CMD ["/usr/sbin/php-fpm7", "-F"]

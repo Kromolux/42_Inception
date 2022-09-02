@@ -49,6 +49,12 @@ P:
 
 fclean: clean volume
 
+ls:
+	docker container ls
+	docker image ls
+	docker volume ls
+	docker network ls
+
 domain:
 	bash -c 'echo "127.0.0.1 rkaufman.42.fr" >> /etc/hosts'
 
@@ -76,4 +82,4 @@ cert:
 
 re: clean fclean all
 
-.PHONY: clean re Cstop Cs C I V N cert
+.PHONY: clean re Cstop Cs C I V N cert ls
