@@ -38,8 +38,6 @@ services:
                   - volume_WordPress:/var/www/html
             environment:
                   - PS1
-#            env_file:
-#                  - .env
             networks:
                   - Inception_network
             restart: on-failure
@@ -81,6 +79,49 @@ services:
                   - WORDPRESS_DB_USER
                   - WORDPRESS_DB_PASSWORD
                   - WORDPRESS_DB_NAME
+            networks:
+                  - Inception_network
+            restart: on-failure
+
+#BONUS
+      service_website:
+            container_name: website
+            image: website
+            build: requirements/bonus/website
+            volumes:
+                  - volume_WordPress:/var/www/html:rw
+            environment:
+                  - PS1
+            networks:
+                  - Inception_network
+            restart: on-failure
+
+      service_ftp:
+            container_name: ftp
+            image: ftp
+            build: requirements/bonus/ftp
+            ports:
+                  - 20:20
+                  - 21:21
+                  - 12000:12000
+            volumes:
+                  - volume_WordPress:/home/rkaufman/ftp:rw
+            environment:
+                  - PS1
+                  - FTP_USER
+                  - FTP_PASS
+            networks:
+                  - Inception_network
+            restart: on-failure
+
+      service_adminer:
+            container_name: adminer
+            image: adminer
+            build: requirements/bonus/adminer
+            volumes:
+                  - volume_WordPress:/var/www/html:rw
+            environment:
+                  - PS1
             networks:
                   - Inception_network
             restart: on-failure

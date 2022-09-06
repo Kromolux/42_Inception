@@ -3,7 +3,7 @@ if [ ! -d /var/lib/mysql/Inception_DataBase ]; then
 	echo "installing database"
 	mariadb-install-db --user=mysql --ldata=/var/lib/mysql
 
-	mkdir /var/run/mysqld
+	#mkdir /var/run/mysqld
 	chown -R mysql:root /var/run/mysqld
 
 

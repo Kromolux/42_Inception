@@ -45,9 +45,7 @@ N:
 P:
 	docker system prune -af
 
-#	rm -fr $(OBJS)
-
-fclean: clean volume
+fclean: clean volume P
 
 ls:
 	docker container ls
