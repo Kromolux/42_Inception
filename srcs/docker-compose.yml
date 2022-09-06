@@ -94,7 +94,6 @@ services:
                   - PS1
             networks:
                   - Inception_network
-            restart: on-failure
 
       service_ftp:
             container_name: ftp
@@ -124,4 +123,3 @@ services:
                   - PS1
             networks:
                   - Inception_network
-            restart: on-failure
